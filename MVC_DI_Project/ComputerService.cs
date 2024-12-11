@@ -1,9 +1,17 @@
-﻿using MVC_DI_Project.Models;
+﻿using MVC_DI_Project.Data;
+using MVC_DI_Project.Models;
 
 namespace MVC_DI_Project;
 
 public class ComputerService : IComputerService
 {
+    private readonly IDatabase _computerDatabase;
+
+    public ComputerService(IDatabase computerDatabase)
+    {
+        _computerDatabase = computerDatabase;
+    }
+
     public void AddComputer(Computer computer)
     {
         
@@ -11,12 +19,7 @@ public class ComputerService : IComputerService
 
     public List<Computer> GetComputers()
     {
-        return new List<Computer>()
-        {
-            new Computer() { Id = 1, Name = "Windows" },
-            new Computer() { Id = 2, Name = "MacOS" },
-            new Computer() { Id = 3, Name = "Linux" },
-        };
+        return _computerDatabase.GetAll();
     }
 
     public void RemoveComputer(Computer computer)

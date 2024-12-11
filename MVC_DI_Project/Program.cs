@@ -1,4 +1,5 @@
 using MVC_DI_Project;
+using MVC_DI_Project.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ builder.Services.AddControllersWithViews();
 // ============== DI ================
 
 builder.Services.AddSingleton<IComputerService, ComputerService>();
+builder.Services.AddSingleton<IDatabase, ComputerDatabase>();
 
 // ==================================
 
