@@ -14,7 +14,9 @@ public class ComputerService : IComputerService
 
     public void AddComputer(Computer computer)
     {
-        
+        ValidateComputer(computer);
+
+        _computerDatabase.Add(computer);
     }
 
     public List<Computer> GetComputers()
@@ -24,11 +26,35 @@ public class ComputerService : IComputerService
 
     public void RemoveComputer(Computer computer)
     {
-        
+        if (!ComputerExists(computer.Id))
+        {
+            throw new ArgumentException();
+        }
+
+        _computerDatabase.Delete(computer);
     }
 
     public void UpdateComputer(int id, Computer computer)
     {
-        
+        ValidateComputer(computer);
+        if (!ComputerExists(computer.Id))
+        {
+            throw new ArgumentException();
+        }
+
+        _computerDatabase.Update(id, computer);
+    }
+
+    private void ValidateComputer(Computer computer)
+    {
+        if (string.IsNullOrEmpty(computer.OperationSystem))
+        {
+            throw new ArgumentException();
+        }
+    }
+
+    private bool ComputerExists(int id)
+    {
+        return _computerDatabase.GetAll().Any(x => x.Id == id);
     }
 }
